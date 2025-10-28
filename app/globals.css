@@ -118,6 +118,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-mochiy), sans-serif; /* Added font family to body */
+    font-family: var(--font-mochiy), sans-serif; 
   }
 }
