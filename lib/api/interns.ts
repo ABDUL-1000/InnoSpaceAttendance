@@ -6,8 +6,8 @@ export interface InternRegistrationData {
   email: string;
   school: string;
   category: 'SIWES' | 'Intern';
-  siwesForm?: File;
-  paymentProof: File;
+  siwesForm?: string;
+  paymentProof: string;
 }
 
 export interface Intern {

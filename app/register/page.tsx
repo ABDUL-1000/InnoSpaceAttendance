@@ -150,7 +150,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            {formData.category === 'SIWES' && (
+             
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   SIWES Form
@@ -162,7 +162,7 @@ export default function RegisterPage() {
                   onChange={(e) => setSiwesForm(e.target.files?.[0] || null)}
                 />
               </div>
-            )}
+            
 
             <div>
               <label className="block text-sm font-medium text-gray-700">

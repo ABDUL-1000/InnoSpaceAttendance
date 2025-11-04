@@ -1,15 +1,35 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { authApi, LoginData, RegisterData } from '../api/auth';
+import { authApi } from '../api/instance';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
+export interface LoginData {
+  identifier: string;
+  password: string;
+}
+
+export interface RegisterData {
+  fullname: string;
+  email: string;
+  password: string;
+  role: string;
+}
 export const useLogin = () => {
+  const router = useRouter();
+  
   return useMutation({
     mutationFn: (data: LoginData) => authApi.login(data),
     onSuccess: (data) => {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('userRole', data.user?.role);
-      }
+      toast.success('Login successful!');
+      console.log('Login successful, token should be set:', data);
+      // Add a small delay to ensure cookie is set
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 100);
     },
+    onError: (error) => {
+      console.error('Login failed:', error);
+    }
   });
 };
 

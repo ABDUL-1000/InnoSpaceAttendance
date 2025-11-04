@@ -1,76 +1,66 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { financeAPI } from '../api/finance';
+import { financeApi, ExpenseData, RevenueData, BudgetData } from '../api/finance';
 
-export const useFinance = () => {
+export const useAddExpense = () => {
   const queryClient = useQueryClient();
-
-  // Queries
-  const expensesQuery = useQuery({
-    queryKey: ['finance', 'expenses'],
-    queryFn: financeAPI.getExpenses,
-  });
-
-  const revenueQuery = useQuery({
-    queryKey: ['finance', 'revenue'],
-    queryFn: financeAPI.getRevenue,
-  });
-
-  const budgetsQuery = useQuery({
-    queryKey: ['finance', 'budgets'],
-    queryFn: financeAPI.getBudgets,
-  });
-
-  const summaryQuery = useQuery({
-    queryKey: ['finance', 'summary'],
-    queryFn: financeAPI.getSummary,
-  });
-
-  // Mutations
-  const addExpenseMutation = useMutation({
-    mutationFn: financeAPI.addExpense,
+  
+  return useMutation({
+    mutationFn: (data: ExpenseData) => financeApi.addExpense(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['finance', 'expenses'] });
       queryClient.invalidateQueries({ queryKey: ['finance', 'summary'] });
     },
   });
+};
 
-  const addRevenueMutation = useMutation({
-    mutationFn: financeAPI.addRevenue,
+export const useAllExpenses = () => {
+  return useQuery({
+    queryKey: ['finance', 'expenses'],
+    queryFn: () => financeApi.getAllExpenses(),
+  });
+};
+
+export const useAddRevenue = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (data: RevenueData) => financeApi.addRevenue(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['finance', 'revenue'] });
       queryClient.invalidateQueries({ queryKey: ['finance', 'summary'] });
     },
   });
+};
 
-  const addBudgetMutation = useMutation({
-    mutationFn: financeAPI.addBudget,
+export const useAllRevenue = () => {
+  return useQuery({
+    queryKey: ['finance', 'revenue'],
+    queryFn: () => financeApi.getAllRevenue(),
+  });
+};
+
+export const useAddBudget = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (data: BudgetData) => financeApi.addBudget(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['finance', 'budgets'] });
       queryClient.invalidateQueries({ queryKey: ['finance', 'summary'] });
     },
   });
+};
 
-  return {
-    // Queries data
-    expenses: expensesQuery.data || [],
-    revenue: revenueQuery.data || [],
-    budgets: budgetsQuery.data || [],
-    summary: summaryQuery.data || {},
-    
-    // Loading states
-    isLoading: expensesQuery.isLoading || revenueQuery.isLoading || budgetsQuery.isLoading,
-    
-    // Mutations
-    addExpense: addExpenseMutation.mutateAsync,
-    addRevenue: addRevenueMutation.mutateAsync,
-    addBudget: addBudgetMutation.mutateAsync,
-    
-    // Mutation states
-    isAddingExpense: addExpenseMutation.isPending,
-    isAddingRevenue: addRevenueMutation.isPending,
-    isAddingBudget: addBudgetMutation.isPending,
-    
-    // Errors
-    error: addExpenseMutation.error || addRevenueMutation.error,
-  };
+export const useAllBudgets = () => {
+  return useQuery({
+    queryKey: ['finance', 'budgets'],
+    queryFn: () => financeApi.getAllBudgets(),
+  });
+};
+
+export const useFinanceSummary = () => {
+  return useQuery({
+    queryKey: ['finance', 'summary'],
+    queryFn: () => financeApi.getFinanceSummary(),
+  });
 };
