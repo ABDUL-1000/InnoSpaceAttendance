@@ -77,8 +77,7 @@ export const useDeleteStaff = () => {
 export const useLogout = () => {
   return () => {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('userRole');
+      authApi.logout();
       window.location.href = '/login';
     }
   };

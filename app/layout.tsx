@@ -28,7 +28,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${mochiyPopPOne.variable} antialiased bg-[#F9FAFB] w-[90%] lg-w-full  mx-auto`}>
+      <body className={`${mochiyPopPOne.variable} antialiased bg-[#F9FAFB] `}>
         <QueryClientProvider client={queryClient}>
           <Toaster position="top-center" />
           {children}
